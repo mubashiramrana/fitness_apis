@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Req, Res } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post, Req, Res } from '@nestjs/common';
 import { MembersService } from './members.service';
 
 @Controller('members')
@@ -14,6 +14,24 @@ export class MembersController {
         return this.memberService.create(body);
     }
 
+    @Post('get')
+    getAll(@Req() req: Request) {
+        const { body } = req;
+        return this.memberService.getAll(body);
+    }
+
+    @Post('save-fee')
+    saveFee(@Req() req: Request) {
+        const { body } = req;
+        return this.memberService.addFee(body);
+    }
+
+    @Post('get-fee')
+    getFee(@Req() req: Request) {
+        const { body } = req;
+        return this.memberService.getAllFees(body);
+    }
+
     @Post(':id')
     edit(@Req() req: Request, @Param() query) {
         const { body } = req;
@@ -21,9 +39,15 @@ export class MembersController {
         return this.memberService.edit(id, body);
     }
 
-    @Post('get')
-    getAll(@Req() req: Request) {
-        const { body } = req;
-        return this.memberService.getAll(body);
+    @Delete(':id')
+    delete(@Req() req: Request, @Param() query) {
+        const { id } = query;
+        return this.memberService.delete(id);
+    }
+
+    @Delete('delete-fee/:id')
+    deleteFee(@Req() req: Request, @Param() query) {
+        const { id } = query;
+        return this.memberService.deleteFee(id);
     }
 }
